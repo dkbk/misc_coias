@@ -40,7 +40,8 @@ tot_00.txt にあるアスタリスク(*)がついているCOIAS関連の行を 
 
 ### obs80_sort.py
 
-obs80形式データファイルを読み込み、7文字のPacked仮符号を昇順ソートで並べ替えて出力します。
+obs80形式データファイルを読み込み、7文字のPacked仮符号を昇順ソートで並べ替えて出力します。<br>
+※後述の mpcorb_find.py の準備に利用します。
 
 ```bash
 python3 obs80_sort.py COIAS_ast.txt COIAS_ast_sorted.txt
