@@ -62,3 +62,7 @@ python3 mpcorb_find.py MPCORB.DAT COIAS_ast_sorted.txt COIAS_mpcorb.txt
 ```
 
 MPCORB.DAT と COIAS_ast_sorted.txt を読み込み、衝:降順 U:昇順 Packed仮符号:昇順 で並び替えた後に COIAS_mpcorb.txt に出力します。
+
+## 備考
+
+アスタリスク(*)付きの仮符号天体を数多く測定されている方は、MPC [WAMO](https://www.minorplanetcenter.net/wamo/) で出力された 仮符号に書き換えられた後の測定データ を纏めてテキストファイルに保存することで、そのテキストファイル ＝ COIAS_ast.txt として扱えますので obs80_sort.py、mpcorb_find.py の順で MPCORB.DAT と照合できます。
