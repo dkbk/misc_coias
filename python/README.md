@@ -51,7 +51,7 @@ COIAS_ast.txt を読み込み、7文字のPacked仮符号を昇順ソートし�
 
 ### mpcorb_find.py
 
-MPCORB.DAT と obs80形式データファイル を読み込み、obs80形式データファイルにある7文字のPacked仮符号を MPCORB.DAT から見つけて該当行を抽出します。
+小惑星の軌道要素などが纏められている MPCORB.DAT と obs80形式データファイル を読み込み、obs80形式データファイルにある7文字のPacked仮符号を MPCORB.DAT から見つけて該当行を抽出します。
 
 MPC [The MPC Orbit (MPCORB) Database](https://www.minorplanetcenter.net/iau/MPCORB.html) から
 MPCORB.DAT.gz (約80MB) をダウンロードし、展開すると MPCORB.DAT (約270MB) が得られます。
