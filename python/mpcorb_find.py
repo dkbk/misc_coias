@@ -36,11 +36,32 @@ if __name__ == "__main__":
 
     obsListRange = len(obsList)
 
+    # obsListはPacked仮符号の昇順ソートを事前に済ませておく
+
+    for n1 in range(obsListRange - 1):
+
+        n1s = obsList[n1]
+        n1n = n1s[0:12]
+
+        swapnum1 = n1
+        swapnum2 = n1
+
+        for n2 in range(n1 + 1, obsListRange):
+
+            n2s = obsList[n2]
+            n2n = n2s[0:12]
+
+            if n2n < n1n:
+                n1n = n2n
+                swapnum2 = n2
+
+        if swapnum1 != swapnum2:
+            obsList[swapnum1], obsList[swapnum2] = obsList[swapnum2], obsList[swapnum1]
+
     updateList = []
 
     n2 = 720000
 
-    # obsListはパックト仮符号の昇順ソートを事前に済ませておく
     for n1 in range(obsListRange):
 
         s1 = obsList[n1]
@@ -50,7 +71,7 @@ if __name__ == "__main__":
         n3 = n2
         found = False
 
-        # MPCORB.DAT側のリストは配布元でパックト仮符号の昇順ソート済み
+        # MPCORB.DAT側のリストは配布元でPacked仮符号の昇順ソート済み
         while n2 < mpcorbListRange:
 
             s2 = mpcorbList[n2]
@@ -69,7 +90,7 @@ if __name__ == "__main__":
 
     updateListRange = len(updateList)
 
-    # opps:降順 U:昇順 パックト仮符号:昇順 でソート
+    # opps:降順 U:昇順 Packed仮符号:昇順 でソート
 
     for n1 in range(updateListRange - 1):
 
