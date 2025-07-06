@@ -61,7 +61,7 @@ MPCORB.DAT.gz (約80MB) をダウンロードし、展開すると MPCORB.DAT (�
 python3 mpcorb_find.py MPCORB.DAT COIAS_ast.txt COIAS_mpcorb.txt
 ```
 
-MPCORB.DAT と COIAS_ast.txt を読み込み、COIAS_ast.txt の並び順で COIAS_mpcorb.txt に出力します。
+MPCORB.DAT と COIAS_ast.txt を読み込み、COIAS_ast.txt の並び順で COIAS_mpcorb.txt に出力します。<br>
 ※確定番号を与えられたり他天体と同定された場合は、空白行を出力します。
 
 ```bash
