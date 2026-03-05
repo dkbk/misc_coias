@@ -11,125 +11,93 @@ if __name__ == "__main__":
         sys.exit()
 
     mpcorbListFile = sys.argv[1]
-    obsListFile = sys.argv[2]
+    pdsListFile = sys.argv[2]
     wfn = sys.argv[3]
 
     if not os.path.exists(mpcorbListFile):
         sys.exit()
 
-    if not os.path.exists(obsListFile):
+    if not os.path.exists(pdsListFile):
         sys.exit()
 
-    #
-
+    # MPCORB.DAT 読み込み ※Packed形式で文字列昇順ソート済み
     mpcorbList = []
     with open(mpcorbListFile, "r") as f:
         mpcorbList = f.readlines()
 
-    mpcorbListRange = len(mpcorbList)
+    # 検索対象仮符号天体 読み込み
+    pdsList = []
+    with open(pdsListFile, "r") as f:
+        pdsList = f.readlines()
+
+    # リスト -> 辞書に変換
+    pdsDict = {}
+    for n in range(len(pdsList)):
+        pdsDict[n] = pdsList[n]
+
+    # 辞書ソート(文字列昇順) -> リスト
+    pdsDictList = list(sorted(pdsDict.items(), key=lambda x:x[1]))
+    pdsDictListRange = len(pdsDictList)
 
     #
+    # 検索
+    #
 
-    obsList = []
-    with open(obsListFile, "r") as f:
-        obsList = f.readlines()
+    pdsN = 0
+    pdsK, pdsS = pdsDictList[pdsN]
+    pdsD = pdsS[5:12]
 
-    obsListRange = len(obsList)
+    mpcorbListRange = len(mpcorbList)
+    mpcN = 800000 # 確定番号天体を事前にスキップさせておく
+    while mpcN < mpcorbListRange:
 
-    # obsListはPacked仮符号の昇順ソートを事前に済ませておく
+        mpcS = mpcorbList[mpcN]
+        if len(mpcS) < 7:
+            mpcN = mpcN + 1
+            continue
 
-    for n1 in range(obsListRange - 1):
+        mpcD = mpcS[0:7]
 
-        n1s = obsList[n1]
-        n1n = n1s[0:12]
+        # 仮符号天体の場合は7文字必要、確定番号天体は5文字
+        if mpcD.find(' ') >= 0 and mpcD.find(' ') < 7:
+            mpcN = mpcN + 1
+            continue
 
-        swapnum1 = n1
-        swapnum2 = n1
+        if mpcD < pdsD:
+            mpcN = mpcN + 1
+            continue
 
-        for n2 in range(n1 + 1, obsListRange):
+        k, v = pdsDictList[pdsN] # 辞書の中身を書き換えるためキーを取得
 
-            n2s = obsList[n2]
-            n2n = n2s[0:12]
+        if mpcD == pdsD:
+            pdsDict[k] = mpcS
+            mpcN = mpcN + 1
+        else:
+            pdsDict[k] = '{0:<202}\n'.format(pdsD)
 
-            if n2n < n1n:
-                n1n = n2n
-                swapnum2 = n2
+        # 次の仮符号天体に更新
+        pdsN = pdsN + 1
+        if pdsN >= pdsDictListRange:
+            break
+        pdsK, pdsS = pdsDictList[pdsN]
+        pdsD = pdsS[5:12]
 
-        if swapnum1 != swapnum2:
-            obsList[swapnum1], obsList[swapnum2] = obsList[swapnum2], obsList[swapnum1]
+    #
+    # 衝(opps):降順、不確実性(U):昇順、Packed仮符号:昇順 でソートし出力
+    #
 
-    updateList = []
+    pdsSortOppList = []
+    for k, v in pdsDict.items(): # python 3.7 以降？
 
-    n2 = 720000
+        pdsSortOppList.append([]) # 多重リスト化
 
-    for n1 in range(obsListRange):
+        pdsSortOppList[k].append(v) # 0:文字列そのまま
+        pdsSortOppList[k].append(int(0 if v[124:126] == "  " else v[124:126])) # 1:衝
+        pdsSortOppList[k].append(v[105]) # 2:不確実性
+        pdsSortOppList[k].append(v[0:7]) # 3:Packed仮符号
 
-        s1 = obsList[n1]
-        d1 = s1[5:12]
-
-        # MPCORB.DATに含まれてなかったときの処理
-        n3 = n2
-        found = False
-
-        # MPCORB.DAT側のリストは配布元でPacked仮符号の昇順ソート済み
-        while n2 < mpcorbListRange:
-
-            s2 = mpcorbList[n2]
-            n2 = n2 + 1
-            if len(s2) < 7:
-                continue;
-
-            if d1 == s2[0:7]:
-                found = True
-                updateList.append(s2)
-                break
-
-        # MPCORB.DATに含まれてなかったときの処理
-        if found == False:
-            n2 = n3
-
-    updateListRange = len(updateList)
-
-    # opps:降順 U:昇順 Packed仮符号:昇順 でソート
-
-    for n1 in range(updateListRange - 1):
-
-        s1 = updateList[n1]
-        o1 = int(s1[124:126])
-        u1 = s1[105]
-        d1 = s1[0:7]
-
-        swapnum1 = n1
-        swapnum2 = n1
-
-        for n2 in range(n1 + 1, updateListRange):
-
-            s2 = updateList[n2]
-            o2 = int(s2[124:126])
-            u2 = s2[105]
-            d2 = s2[0:7]
-
-            if o2 > o1:
-                o1 = o2
-                u1 = u2
-                d1 = d2
-                swapnum2 = n2
-            elif o2 == o1:
-                if u2 < u1:
-                    o1 = o2
-                    u1 = u2
-                    d1 = d2
-                    swapnum2 = n2
-                elif u2 == u1:
-                    if d2 < d1:
-                        o1 = o2
-                        u1 = u2
-                        d1 = d2
-                        swapnum2 = n2
-
-        if swapnum1 != swapnum2:
-            updateList[swapnum1], updateList[swapnum2] = updateList[swapnum2], updateList[swapnum1]
+    pdsSortOppList = sorted(pdsSortOppList, key=lambda x: (-x[1], x[2], x[3]))
 
     with open(wfn, "w") as f:
-        for n in range(len(updateList)):
-            f.write(updateList[n])
+        for n in range(len(pdsSortOppList)):
+            f.write(pdsSortOppList[n][0])
