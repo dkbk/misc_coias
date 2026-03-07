@@ -70,6 +70,17 @@ python3 mpcorb_find_and_sort_opp.py MPCORB.DAT COIAS_ast.txt COIAS_mpcorb.txt
 
 MPCORB.DAT と COIAS_ast.txt を読み込み、衝:降順 U:昇順 Packed仮符号:昇順 で並び替えた後に COIAS_mpcorb.txt に出力します。
 
+
+### PD_to_PackedPD.py
+
+テキストファイルにある小惑星の仮符号(1行1天体)をPacked仮符号(1行1天体)に変換します。<br>
+
+```bash
+python3 PD_to_PackedPD.py PD_List.txt PackedPD_List.txt
+```
+
+PD_List.txt を読み込み、7文字のPacked仮符号を PackedPD_List.txt に出力します。
+
 ## 備考
 
 アスタリスク(*)付きの仮符号天体を数多く測定されている方は、MPC [WAMO](https://www.minorplanetcenter.net/wamo/) で出力された 仮符号に書き換えられた後の測定データ を纏めてテキストファイルに保存することで、そのテキストファイル ＝ COIAS_ast.txt として扱えますので mpcorb_find.py で MPCORB.DAT と照合できます。
