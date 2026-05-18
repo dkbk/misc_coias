@@ -5,8 +5,12 @@
 ;       The accuracy of the measurements cannot be guaranteed.
 ; 
 ;       FITS images
+;
 ;           Hyper Suprime-Cam Subaru Strategic Program
-;           https://hsc.mtk.nao.ac.jp/ssp/
+;           https://hsc-release.mtk.nao.ac.jp/doc/
+; 
+;           Hyper Suprime-Cam Legacy Archive
+;           https://hscla.mtk.nao.ac.jp/doc/
 ; 
 
 TNO // a > 150 au
@@ -62,11 +66,6 @@ TNO // i > 50 degrees
      H406148  C2015 03 29.49618 14 38 56.01 -00 30 35.2          22.8 y      T09
      H406148  C2015 03 29.56398 14 38 55.25 -00 30 31.9          23.1 z      T09
      H406148  C2015 03 29.62041 14 38 54.63 -00 30 29.3          23.3 z      T09
-
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 
 TNO //
               C2019 01 08.65937 11 02 53.86 -00 16 39.2                      T09
