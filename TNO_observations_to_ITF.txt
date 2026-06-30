@@ -1,6 +1,6 @@
 
 ; 
-;   TNOs_Candidate.txt
+;   TNO_observations_to_ITF.txt
 ; 
 ;       The accuracy of the measurements cannot be guaranteed.
 ; 
